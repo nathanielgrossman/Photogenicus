@@ -9,19 +9,38 @@ export default class TrueImages extends Component {
     }
   }
 
-  addToModel() {
+  classify() {
     let images = this.state.images;
+    let filtered = [];
+    let promises = [];
     images.forEach((imageEl, i) => {
-      console.log('adding to classifier');
-      this.props.classifier.addImage(document.getElementById('true' + i), 'true');
+    	console.log('creating classify promise');
+      let classifyProm = new Promise((resolve, reject) => {
+        this.props.classifier.classify(document.getElementById('fresh' + i), function(results) {
+          if (results === 'true') {
+            console.log('adding to filtered');
+            filtered.push(imageEl);
+          }
+          resolve();
+        })
+      });
+      promises.push(classifyProm);
+
+
     })
-    let container = document.getElementById('truebox');
-    container.innerHTML = ''
+    Promise.all(promises)
+    .then(() => {
+    	this.setState(preState => {
+  			console.log('setting state', filtered);
+        preState.images = filtered;
+        return preState;
+      })
+    })
   }
 
   componentDidMount() {
     const images = [];
-    fetch('http://localhost:5000/gettrue', {
+    fetch('http://localhost:5000/getfresh', {
       method: 'get',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +51,7 @@ export default class TrueImages extends Component {
     })
     .then(urlArr => {
       urlArr.forEach((pic, i) => {
-        let image = <img src={pic.url} id={'true' + i} width="224px" height="224px" key={'true' + i} crossOrigin="anonymous"/>
+        let image = <img src={pic.url} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/>
 
         images.push(image);
            console.log(images);
@@ -51,13 +70,12 @@ export default class TrueImages extends Component {
     return (
       <div id="true">
       <p>true</p>
-      <button onClick={this.addToModel.bind(this)} >Add to Model</button>
+      <button onClick={this.classify.bind(this)} >Classify</button>
         <div id="truebox">
           {this.state.images}
         </div>
      </div>
     )
   }
+
 }
-
-

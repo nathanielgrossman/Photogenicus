@@ -15,6 +15,8 @@ export default class FalseImages extends Component {
       console.log('adding to classifier');
       this.props.classifier.addImage(document.getElementById('false' + i), 'false');
     })
+    let container = document.getElementById('falsebox');
+    container.innerHTML = ''
   }
 
   componentDidMount() {
@@ -51,7 +53,7 @@ export default class FalseImages extends Component {
       <div id="false">
       <p>false</p>
       <button onClick={this.addToModel.bind(this)} >Add to Model</button>
-        <div>
+        <div id="falsebox">
           {this.state.images}
         </div>
      </div>

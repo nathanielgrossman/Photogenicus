@@ -12,7 +12,8 @@ const ImagesController = {
         fs.readdir(freshImagePath, function(err, images) {
           if (err) return next(err);
           let returnarr = [];
-          for (imagename of images) {
+          const finalimages = images.filter( function( item ) {return item.match(/.*\.(jpg)/ig);});
+          for (imagename of finalimages) {
             const fullimgurl = ourServerUrl + 'fresh/' + imagename;
             returnarr.push({ url: fullimgurl });
           }
@@ -25,7 +26,8 @@ const ImagesController = {
         fs.readdir(trueImagePath, function(err, images) {
           if (err) return next(err);
           let returnarr = [];
-          for (imagename of images) {
+          const finalimages = images.filter( function( item ) {return item.match(/.*\.(jpg)/ig);});
+          for (imagename of finalimages) {
             const fullimgurl = ourServerUrl + 'true/' + imagename;
             returnarr.push({ url: fullimgurl });
           }
@@ -38,7 +40,8 @@ const ImagesController = {
         fs.readdir(falseImagePath, function(err, images) {
           if (err) return next(err);
           let returnarr = [];
-          for (imagename of images) {
+          const finalimages = images.filter( function( item ) {return item.match(/.*\.(jpg)/ig);});
+          for (imagename of finalimages) {
             const fullimgurl = ourServerUrl + 'false/' + imagename;
             returnarr.push({ url: fullimgurl });
           }

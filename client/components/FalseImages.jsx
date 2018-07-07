@@ -19,17 +19,17 @@ export default class FalseImages extends Component {
 
   componentDidMount() {
     const images = [];
-    fetch('/getfalseimages', {
+    fetch('http://localhost:5000/getfalse', {
       method: 'get',
       headers: {
         'Accept': 'application/json',
       }
     })
     .then(response => {
-      // return JSON.parse(response);
-      return [{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"},{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"},{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"}]
+      return response.json();
     })
     .then(urlArr => {
+      console.log(urlArr);
       urlArr.forEach((pic, i) => {
         let image = <img src={pic.url} id={'false' + i} width="224px" height="224px" key={'false' + i} crossOrigin="anonymous"/>
 

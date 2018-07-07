@@ -19,15 +19,14 @@ export default class TrueImages extends Component {
 
   componentDidMount() {
     const images = [];
-    fetch('/gettrueimages', {
+    fetch('http://localhost:5000/gettrue', {
       method: 'get',
       headers: {
         'Accept': 'application/json',
       }
     })
     .then(response => {
-      // return JSON.parse(response);
-      return [{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"},{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"},{url:"https://s7d1.scene7.com/is/image/PETCO/puppy-090517-dog-featured-355w-200h-d"}]
+      return response.json();
     })
     .then(urlArr => {
       urlArr.forEach((pic, i) => {

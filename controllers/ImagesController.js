@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+let multer = require('multer');
 
 const ourServerUrl = "http://localhost:5000/";
 var trueImagePath = path.join(path.resolve(__dirname, ".."), "/public/true/");
@@ -52,8 +53,7 @@ const ImagesController = {
 
     uploadImages(req, res, next) {
       if (!req.files) return res.status(400).send("No files were uploaded.");
-
-      let sampleFile = req.files.sampleFile;
+      let sampleFile = req.files.file;
       const filename = Math.floor(Math.random() * (100000 - 2) + 2);
       sampleFile.mv(freshImagePath + "/" + filename + ".jpg", function(err) {
         if (err) {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TrueImages from './TrueImages.jsx';
 import FalseImages from './FalseImages.jsx';
 import FreshImages from './FreshImages.jsx';
+import UploadBox from './UploadBox.jsx';
+import Header from './Header.jsx';
 
 // import '../style/style.css';
 
@@ -39,6 +41,8 @@ export default class App extends Component {
 
     return (
       <div>
+      <Header/>
+      <UploadBox />
       <button onClick={this.train.bind(this)}>Train</button> <span id="loss"></span>
       <TrueImages classifier={this.props.classifier}/>
       <FalseImages classifier={this.props.classifier}/>

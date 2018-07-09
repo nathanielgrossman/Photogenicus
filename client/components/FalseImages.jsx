@@ -11,11 +11,17 @@ export default class FalseImages extends Component {
 
   addToModel() {
     let images = this.state.images;
+    let total = images.length - 1;
+    let falsestatus = document.getElementById('falsestatus');
     images.forEach((imageEl, i) => {
-      console.log('adding to classifier');
-      this.props.classifier.addImage(document.getElementById('false' + i), 'false');
+      this.props.classifier.addImage(document.getElementById('false' + i), 'false', () => {
+        let current = i;
+        let percentage = Math.floor((current / total) * 100)+'%'
+        falsestatus.innerHTML = percentage;
+      });
     })
     let container = document.getElementById('falsebox');
+    document.getElementById('addfalse').disabled = true;
     container.innerHTML = ''
   }
 
@@ -31,12 +37,10 @@ export default class FalseImages extends Component {
       return response.json();
     })
     .then(urlArr => {
-      console.log(urlArr);
       urlArr.forEach((pic, i) => {
         let image = <img src={pic.url} id={'false' + i} width="224px" height="224px" key={'false' + i} crossOrigin="anonymous"/>
 
         images.push(image);
-           console.log(images);
       });
       this.setState(preState => {
         preState.images = images;
@@ -52,7 +56,7 @@ export default class FalseImages extends Component {
     return (
       <div id="false">
       <p>false</p>
-      <button onClick={this.addToModel.bind(this)} >Add to Model</button>
+      <button onClick={this.addToModel.bind(this)} id="addfalse">Add to Model</button> <span id="falsestatus"></span>
         <div id="falsebox">
           {this.state.images}
         </div>

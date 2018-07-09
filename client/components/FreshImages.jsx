@@ -69,7 +69,7 @@ export default class TrueImages extends Component {
 
     return (
       <div id="true">
-      <p>true</p>
+      <p>Unsorted Images</p>
       <button onClick={this.classify.bind(this)} >Classify</button>
         <div id="truebox">
           {this.state.images}

@@ -15,6 +15,7 @@ app.use(function(req, res, next) {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // this is to be able to serve static images from express
+
 app.use(express.static(__dirname + "/public/true"));
 app.use(express.static(__dirname + "/public/false"));
 app.use(express.static(__dirname + "/public/fresh"));

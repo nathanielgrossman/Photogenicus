@@ -14,6 +14,10 @@ export default class TrueImages extends Component {
     let filtered = [];
     let promises = [];
     let total = images.length;
+    if (!this.props.trained) {
+      document.getElementById('warning').innerHTML = 'Please train classifier before attempting to classify images.'
+      return;
+    }
     images.forEach((imageEl, i) => {
       let classifyProm = new Promise((resolve, reject) => {
         this.props.classifier.classify(document.getElementById('fresh' + i), function(results) {
@@ -40,6 +44,7 @@ export default class TrueImages extends Component {
       let information = `Selected ${filtered.length} images from a batch of ${total}.`
       document.getElementById('classify').disabled = true;
       info.innerHTML = information;
+      document.getElementById('warning').innerHTML = ''
     })
   }
 
@@ -74,7 +79,7 @@ export default class TrueImages extends Component {
     return (
       <div id="true">
       <p>Unsorted Images</p>
-      <button onClick={this.classify.bind(this)} id="classify" >Classify</button>
+      <button onClick={this.classify.bind(this)} id="classify" >Classify</button> <span id='warning'></span>
         <p id="info"></p>
         <div id="unfiltered">
           {this.state.images}

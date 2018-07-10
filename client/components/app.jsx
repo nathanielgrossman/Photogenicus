@@ -28,7 +28,7 @@ export default class App extends Component {
       totalLoss = lossValue;
       loss.innerHTML = 'Loss: ' + totalLoss;
     } else {
-      loss.innerHTML = 'Done Training! Final Loss: ' + totalLoss;
+      loss.innerHTML = 'Final Loss: ' + totalLoss;
     }
   }); 
     this.setState((current) => {
@@ -40,13 +40,15 @@ export default class App extends Component {
   render() {
 
     return (
-      <div>
-      <Header/>
-      <UploadBox />
-      <button onClick={this.train.bind(this)}>Train</button> <span id="loss"></span>
-      <TrueImages classifier={this.props.classifier}/>
-      <FalseImages classifier={this.props.classifier}/>
-      <FreshImages classifier={this.props.classifier} trained={this.state.trained}/>
+
+      <div className="container-fluid maindiv">
+      <button className="btn btn-success" onClick={this.train.bind(this)}>Train</button> <span id="loss"></span>
+      <div className="row">
+        <TrueImages classifier={this.props.classifier}/>
+        <FalseImages classifier={this.props.classifier}/>
+        <FreshImages classifier={this.props.classifier} trained={this.state.trained}/>
+      </div>
+
       </div>
     )
   }

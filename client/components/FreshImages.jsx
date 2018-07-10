@@ -15,7 +15,7 @@ export default class TrueImages extends Component {
     let promises = [];
     let total = images.length;
     if (!this.props.trained) {
-      document.getElementById('warning').innerHTML = 'Please train classifier before attempting to classify images.'
+      document.getElementById('info').innerHTML = 'Please train classifier before attempting to classify images.'
       return;
     }
     images.forEach((imageEl, i) => {
@@ -44,7 +44,6 @@ export default class TrueImages extends Component {
       let information = `Selected ${filtered.length} images from a batch of ${total}.`
       document.getElementById('classify').disabled = true;
       info.innerHTML = information;
-      document.getElementById('warning').innerHTML = ''
     })
   }
 
@@ -61,7 +60,7 @@ export default class TrueImages extends Component {
     })
     .then(urlArr => {
       urlArr.forEach((pic, i) => {
-        let image = <img src={pic.url} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/>
+        let image = <a href= {pic.url} target="blank" key={'link' + i}><img src={pic.url} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/></a>
 
         images.push(image);
       });
@@ -77,10 +76,9 @@ export default class TrueImages extends Component {
     
 
     return (
-      <div id="true">
+      <div id="true" className="col scrollbox">
       <p>Unsorted Images</p>
-      <button onClick={this.classify.bind(this)} id="classify" >Classify</button> <span id='warning'></span>
-        <p id="info"></p>
+      <button onClick={this.classify.bind(this)} id="classify" className="btn btn-success">Classify</button> <span id='info'></span>
         <div id="unfiltered">
           {this.state.images}
         </div>

@@ -5,7 +5,8 @@ export default class FalseImages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      width: 4
     }
   }
 
@@ -17,12 +18,18 @@ export default class FalseImages extends Component {
       this.props.classifier.addImage(document.getElementById('false' + i), 'false', () => {
         let current = i;
         let percentage = Math.floor((current / total) * 100)+'%'
+        console.log('adding true: ' + percentage);
         falsestatus.innerHTML = percentage;
       });
     })
     let container = document.getElementById('falsebox');
     document.getElementById('addfalse').disabled = true;
+    document.getElementById('addfalse').innerHTML = "Done";
     container.innerHTML = ''
+    this.setState((current) => {
+      current.width = 1;
+      return current;
+    })
   }
 
   componentDidMount() {
@@ -54,9 +61,9 @@ export default class FalseImages extends Component {
     
 
     return (
-      <div id="false">
-      <p>false</p>
-      <button onClick={this.addToModel.bind(this)} id="addfalse">Add to Model</button> <span id="falsestatus"></span>
+      <div id="false" className={"col-" + this.state.width + ' scrollbox'}>
+      <p>Falsy Images</p>
+      <button onClick={this.addToModel.bind(this)} id="addfalse" className="btn btn-success">Add to Model</button> <span id="falsestatus"></span>
         <div id="falsebox">
           {this.state.images}
         </div>

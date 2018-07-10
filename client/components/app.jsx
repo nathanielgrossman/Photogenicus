@@ -43,10 +43,12 @@ export default class App extends Component {
       <div>
       <Header/>
       <UploadBox />
+
       <button onClick={this.train.bind(this)}>Train</button> <span id="loss"></span>
+      <FreshImages classifier={this.props.classifier} trained={this.state.trained}/>
+
       <TrueImages classifier={this.props.classifier}/>
       <FalseImages classifier={this.props.classifier}/>
-      <FreshImages classifier={this.props.classifier} trained={this.state.trained}/>
       </div>
     )
   }

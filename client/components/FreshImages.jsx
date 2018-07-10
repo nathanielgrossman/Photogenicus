@@ -5,7 +5,8 @@ export default class TrueImages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      classified: false
     }
   }
 
@@ -36,6 +37,7 @@ export default class TrueImages extends Component {
     	this.setState(preState => {
   			console.log('setting state', filtered);
         preState.images = filtered;
+        preState.classified = true;
         return preState;
       })
     })
@@ -47,6 +49,35 @@ export default class TrueImages extends Component {
       document.getElementById('warning').innerHTML = ''
     })
   }
+
+  fetchFreshImagesPeriodically() {
+    if (this.state.classified === false ) {
+      const images = [];
+      fetch('http://localhost:5000/getfresh', {
+        method: 'get',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(urlArr => {
+        urlArr.forEach((pic, i) => {
+          let imgname = '' + pic.url
+          let filename = imgname.split('fresh');
+          const thepicurl = 'http://localhost:8080/public/fresh/' + filename[1];
+          let image = <img src={thepicurl} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/>
+
+          images.push(image);
+        });
+        this.setState(preState => {
+          preState.images = images;
+          return preState;
+        })
+      })  
+    }
+  } 
 
   componentDidMount() {
     const images = [];
@@ -61,7 +92,10 @@ export default class TrueImages extends Component {
     })
     .then(urlArr => {
       urlArr.forEach((pic, i) => {
-        let image = <img src={pic.url} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/>
+        let imgname = '' + pic.url
+        let filename = imgname.split('fresh');
+        const thepicurl = 'http://localhost:8080/public/fresh/' + filename[1];
+        let image = <img src={thepicurl} id={'fresh' + i} width="224px" height="224px" key={'fresh' + i} crossOrigin="anonymous"/>
 
         images.push(image);
       });
@@ -71,6 +105,9 @@ export default class TrueImages extends Component {
       })
       return urlArr;
     })
+
+    this.fetchFreshImagesPeriodically();
+    this.timer = setInterval(() => this.fetchFreshImagesPeriodically(), 1000);
   }
 
   render() {

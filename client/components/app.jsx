@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TrueImages from './TrueImages.jsx';
 import FalseImages from './FalseImages.jsx';
 import FreshImages from './FreshImages.jsx';
+import UploadBox from './UploadBox.jsx';
+import Header from './Header.jsx';
 
 // import '../style/style.css';
 
@@ -38,6 +40,7 @@ export default class App extends Component {
   render() {
 
     return (
+
       <div className="container-fluid maindiv">
       <button className="btn btn-success" onClick={this.train.bind(this)}>Train</button> <span id="loss"></span>
       <div className="row">
@@ -45,6 +48,7 @@ export default class App extends Component {
         <FalseImages classifier={this.props.classifier}/>
         <FreshImages classifier={this.props.classifier} trained={this.state.trained}/>
       </div>
+
       </div>
     )
   }

@@ -5,7 +5,8 @@ export default class TrueImages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      width: 4,
     }
   }
 
@@ -18,12 +19,18 @@ export default class TrueImages extends Component {
       this.props.classifier.addImage(document.getElementById('true' + i), 'true', () => {
         let current = i;
         let percentage = Math.floor((current / total) * 100)+'%'
+        console.log('adding true: ' + percentage);
         addTrue.innerHTML = percentage;
       });
     })
     let container = document.getElementById('truebox');
     document.getElementById('addtrue').disabled = true;
+    document.getElementById('addtrue').innerHTML = "Done";
     container.innerHTML = ''
+    this.setState((current) => {
+      current.width = 1;
+      return current;
+    })
   }
 
   componentDidMount() {
@@ -55,9 +62,9 @@ export default class TrueImages extends Component {
     
 
     return (
-      <div id="true">
-      <p>true</p>
-      <button id="addtrue" onClick={this.addToModel.bind(this)} >Add to Model</button> <span id="truestatus"></span>
+      <div id="true" className={"col-" + this.state.width + ' scrollbox'} >
+      <p>Truthy Images</p>
+      <button id="addtrue" onClick={this.addToModel.bind(this)} className="btn btn-success">Add to Model</button> <span id="truestatus"></span>
         <div id="truebox">
           {this.state.images}
         </div>
